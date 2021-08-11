@@ -28,7 +28,7 @@ public class MemberRepositoryImpl implements MemberRepository {
 
     public Member getMemberById(String id) {
         return entityManager.createQuery("select m from Member m where m.id = :id",
-                Member.class).setParameter("id", id).getSingleResult();
+                Member.class).setParameter("id", id).getResultList().stream().findFirst().orElse(null);
     }
 
     public void insertMember(Member member) {
