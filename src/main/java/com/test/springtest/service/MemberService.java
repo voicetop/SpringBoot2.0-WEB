@@ -12,7 +12,7 @@ public interface MemberService {
 
     boolean insertMember(String id, String name, String password);
 
-    boolean updateMember(String id, String name, String password);
+    Member updateMember(String id, String name, String password);
 
     boolean deleteMember(String id);
 }

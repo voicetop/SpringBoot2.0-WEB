@@ -1,12 +1,15 @@
 package com.test.springtest.controller;
 
+import com.test.springtest.domain.Member;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import com.test.springtest.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -19,13 +22,13 @@ public class TestController {
     private MemberService memberService;
 
     @GetMapping("/")
-    public ResponseEntity getMemberList() throws InterruptedException {
-        return ResponseEntity.ok(memberService.getMemberList());
+    public List<Member> getMemberList() throws InterruptedException {
+        return memberService.getMemberList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getMember(@PathVariable String id) throws InterruptedException {
-        return ResponseEntity.ok(memberService.getMember(id));
+    public Member getMember(@PathVariable String id) throws InterruptedException {
+        return memberService.getMember(id);
     }
 
     @PostMapping("/{id}")
@@ -45,8 +48,9 @@ public class TestController {
         String name = (String) requestParam.get("name");
         String password = (String) requestParam.get("password");
 
-        if (memberService.updateMember(id, name, password)) {
-            return ResponseEntity.ok().build();
+        Member member = memberService.updateMember(id, name, password);
+        if (member!=null) {
+            return ResponseEntity.ok(member);
         } else {
             return ResponseEntity.internalServerError().build();
         }

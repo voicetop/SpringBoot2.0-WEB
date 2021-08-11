@@ -4,6 +4,7 @@ import com.test.springtest.domain.Member;
 import com.test.springtest.reopsitory.MemberRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 public class MemberServiceImpl implements MemberService {
 
     @NonNull
-    private final MemberRepository memberRepository;
+    private MemberRepository memberRepository;
 
     @Override
     public List<Member> getMemberList() {
@@ -32,27 +33,26 @@ public class MemberServiceImpl implements MemberService {
             return false;
         }
 
-        Member member = Member.builder()
+        Member newMember = Member.builder()
                 .id(id)
                 .name(name)
                 .password(password)
                 .build();
-        return memberRepository.insertMember(member) > 0 ? true : false;
+
+        memberRepository.insertMember(newMember);
+        return  true;
     }
 
     @Override
-    public boolean updateMember(String id, String name, String password) {
+    public Member updateMember(String id, String name, String password) {
         Member existMember = getMember(id);
         if (existMember == null) {
-            return false;
+            return null;
         }
+        existMember.setName(name);
+        existMember.setPassword(password);
 
-        Member member = Member.builder()
-                .id(id)
-                .name(name)
-                .password(password)
-                .build();
-        return memberRepository.updateMember(member) > 0 ? true : false;
+        return memberRepository.updateMember(existMember);
     }
 
     @Override
@@ -61,6 +61,7 @@ public class MemberServiceImpl implements MemberService {
         if (existMember == null) {
             return false;
         }
-        return memberRepository.deleteMemberById(id) > 0 ? true : false;
+        memberRepository.deleteMember(existMember);
+        return true;
     }
 }

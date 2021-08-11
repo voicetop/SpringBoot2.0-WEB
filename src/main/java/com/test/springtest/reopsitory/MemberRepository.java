@@ -6,17 +6,16 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository {
 
-    List<Member> getMemberList();
+    public List<Member> getMemberList();
 
-    Member getMemberById(String id);
+    public Member getMemberById(String id);
 
-    int insertMember(Member member);
+    public void insertMember(Member member);
 
-    int updateMember(Member member);
+    public Member updateMember(Member member);
 
-    int deleteMemberById(String id);
+    public void deleteMember(Member member);
 
 }

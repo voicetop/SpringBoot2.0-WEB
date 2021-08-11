@@ -1,5 +1,5 @@
 server:
-  shutdonw: graceful
+  shutdown: graceful
   port: 8080
   servlet:
     encoding:
@@ -12,11 +12,7 @@ logging:
   file:
     name: ${user.dir}/log/test.log
   level:
-    org.hibernate: debug
-    spring.jpa.show-sql: debug
-    spring.jpa.properties.hibernate.format_sql: debug
     com.test.springtest: debug
-    com.test.springtest.entity: error
 
 spring:
   h2:
@@ -26,22 +22,23 @@ spring:
 
   datasource:
     hikari:
-      #driver-class-name: org.h2.driver
-      jdbc-url: jdbc:h2:mem:test
+      jdbc-url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
       username: sa
       password:
       auto-commit: true
       connection-test-query: SELECT 1 FROM DUAL
+      validation-timeout: 1000
+      maximum-pool-size: 5
+      connection-timeout: 300000
+      pool-name: test_h2
 
-    jpa:
-      open-in-view: true
-      hibernate:
-        ddl-auto: none
-        use-new-id-generator-mappings: false
-      show-sql: true
-      properties:
-        hibernate.format_sql: true
+  jpa:
+    show-sql: true
+    open-in-view: true
+    hibernate:
+      ddl-auto: create-drop
+      use-new-id-generator-mappings: false
 
-    jackson:
-      serialization:
-        fail-on-empty-beans: false
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
