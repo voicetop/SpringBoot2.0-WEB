@@ -22,7 +22,7 @@ public class MemberRepositoryImpl implements MemberRepository {
     private EntityManager entityManager;
 
     public List<Member> getMemberList() {
-        return entityManager.createQuery("select m from Member m where m.id = :id",
+        return entityManager.createQuery("select m from Member m",
                 Member.class).getResultList();
     }
 
