@@ -1,7 +1,9 @@
 package com.test.springtest;
 
+import com.test.springtest.domain.Group;
 import com.test.springtest.domain.Member;
-import com.test.springtest.reopsitory.MemberRepository;
+import com.test.springtest.service.GroupService;
+import com.test.springtest.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,31 +15,57 @@ import org.springframework.boot.test.context.SpringBootTest;
 class SpringTestApplicationTests {
 
 	@Autowired
-	private MemberRepository memberRepository;
+	private GroupService groupService;
+
+	@Autowired
+	private MemberService memberService;
 
 	@Test
-	void contextLoads() {
+	void testGroupService() {
+		log.debug("TEST GROUP START");
 
-		Member member = Member.builder()
-				.id("test")
-				.name("테스트")
-				.password("test1234")
-				.build();
+		String id = "test_group";
+		String name = "테스트 그룹";
 
-		memberRepository.insertMember(member);
+		//step1. insert
+		groupService.insertGroup(id, name);
 
-		member.setName("테스트123");
-		Member updatedMember = memberRepository.updateMember(member);
+		//step2. update
+		name = "테스트123_그룹";
+		boolean updateResult = groupService.updateGroup(id, name);
+		Assertions.assertEquals(updateResult, true);
 
-		Assertions.assertEquals(updatedMember.getName(), "테스트123");
+		//step3. get
+		Group retrivedGroup = groupService.getGroup(id);
+		Assertions.assertEquals(retrivedGroup.getId(), id);
+		Assertions.assertEquals(retrivedGroup.getName(), name);
 
-		Member retrivedMember = memberRepository.getMemberById(member.getId());
+		log.debug("TEST GROUP DONE");
+	}
 
-		Assertions.assertEquals(retrivedMember.getId(), "test");
-		Assertions.assertEquals(retrivedMember.getName(), "테스트123");
-		Assertions.assertEquals(retrivedMember.getPassword(), "test1234");
+	@Test
+	void testMemberService() {
+		log.debug("TEST MEMBER START");
 
-		log.debug("TEST DONE");
+		String id = "test";
+		String name = "테스트";
+		String password = "test1234";
+
+		//step1. insert
+		memberService.insertMember(id, name, password);
+
+		//step2. update
+		name = "테스트123";
+		boolean updateResult = memberService.updateMember(id, name, password);
+		Assertions.assertEquals(updateResult, true);
+
+		//step3. get
+		Member retrivedMember = memberService.getMember(id);
+		Assertions.assertEquals(retrivedMember.getId(), id);
+		Assertions.assertEquals(retrivedMember.getName(), name);
+		Assertions.assertEquals(retrivedMember.getPassword(), password);
+
+		log.debug("TEST MEMBER DONE");
 	}
 
 }

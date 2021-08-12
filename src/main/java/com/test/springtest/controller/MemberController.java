@@ -16,7 +16,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/member")
-public class TestController {
+public class MemberController {
 
     @NonNull
     private MemberService memberService;
@@ -36,8 +36,9 @@ public class TestController {
         String name = (String) requestParam.get("name");
         String password = (String) requestParam.get("password");
 
-        if (memberService.insertMember(id, name, password)) {
-            return ResponseEntity.ok().build();
+        Member member = memberService.insertMember(id, name, password);
+        if (member!=null) {
+            return ResponseEntity.ok(member);
         } else {
             return ResponseEntity.internalServerError().build();
         }
@@ -48,21 +49,15 @@ public class TestController {
         String name = (String) requestParam.get("name");
         String password = (String) requestParam.get("password");
 
-        Member member = memberService.updateMember(id, name, password);
-        if (member!=null) {
-            return ResponseEntity.ok(member);
-        } else {
-            return ResponseEntity.internalServerError().build();
-        }
+        memberService.updateMember(id, name, password);
+
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteMember(@PathVariable String id) throws InterruptedException {
-        if (memberService.deleteMember(id)) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.internalServerError().build();
-        }
+        memberService.deleteMember(id);
+        return ResponseEntity.ok().build();
     }
 
 }

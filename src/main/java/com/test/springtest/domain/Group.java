@@ -2,24 +2,24 @@ package com.test.springtest.domain;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
-@ToString(exclude = {"password"}, callSuper = true)
+@ToString
 @Entity
-@Table(name = "tb_member")
-public class Member {
+@Table(name = "tb_group")
+public class Group {
     @Id
     private String id;
     private String name;
-    private String password;
 
     @Builder
-    private Member(String id, String name, String password) {
+    private Group(String id, String name) {
         this.id = id;
         this.name = name;
-        this.password = password;
     }
 }

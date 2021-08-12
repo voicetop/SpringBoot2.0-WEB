@@ -1,6 +1,7 @@
 package com.test.springtest.service;
 
 import com.test.springtest.domain.Member;
+import org.springframework.data.jpa.repository.Modifying;
 
 import java.util.List;
 
@@ -8,11 +9,15 @@ public interface MemberService {
 
     List<Member> getMemberList();
 
+    List<Member> getMemberList(String name);
+
     Member getMember(String id);
 
-    boolean insertMember(String id, String name, String password);
+    Member getMember(String id, String name);
 
-    Member updateMember(String id, String name, String password);
+    Member insertMember(String id, String name, String password);
 
-    boolean deleteMember(String id);
+    boolean updateMember(String id, String name, String password);
+
+    void deleteMember(String id);
 }

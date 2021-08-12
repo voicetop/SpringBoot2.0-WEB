@@ -1,6 +1,6 @@
 package com.test.springtest.reopsitory;
 
-import com.test.springtest.domain.Member;
+import com.test.springtest.domain.Group;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,10 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member, String> {
+public interface GroupRepository extends JpaRepository<Group, String> {
 
-    public List<Member> findAllByNameLike(String name);
-
-    public Member findByIdAndName(String id, String name);
+    public List<Group> findAllByNameLike(String name);
 
 }

@@ -27,7 +27,7 @@ spring:
       password:
       auto-commit: true
       connection-test-query: SELECT 1 FROM DUAL
-      validation-timeout: 1000
+      validation-timeout: 10000
       maximum-pool-size: 5
       connection-timeout: 300000
       pool-name: test_h2
