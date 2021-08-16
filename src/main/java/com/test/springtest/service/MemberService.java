@@ -1,15 +1,18 @@
 package com.test.springtest.service;
 
 import com.test.springtest.domain.Member;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 
 import java.util.List;
 
 public interface MemberService {
 
-    List<Member> getMemberList();
+    Page<Member> getMemberList(Pageable pageable);
 
-    List<Member> getMemberList(String name);
+    Page<Member> getMemberList(Pageable pageable, String name);
 
     Member getMember(String id);
 

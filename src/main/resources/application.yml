@@ -30,7 +30,7 @@ spring:
       validation-timeout: 10000
       maximum-pool-size: 5
       connection-timeout: 300000
-      pool-name: test_h2
+      pool-name: test-h2-pool
 
   jpa:
     show-sql: true

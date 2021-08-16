@@ -5,6 +5,8 @@ import com.test.springtest.reopsitory.MemberRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,13 +21,13 @@ public class MemberServiceImpl implements MemberService {
     private MemberRepository memberRepository;
 
     @Override
-    public List<Member> getMemberList() {
-        return memberRepository.findAll();
+    public Page<Member> getMemberList(Pageable pageable) {
+        return memberRepository.findAll(pageable);
     }
 
     @Override
-    public List<Member> getMemberList(String name){
-        return memberRepository.findAllByNameLike(name);
+    public Page<Member> getMemberList(Pageable pageable, String name){
+        return memberRepository.findAllByNameLike(pageable, name);
     }
 
     @Override
