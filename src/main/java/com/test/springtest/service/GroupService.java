@@ -1,19 +1,22 @@
 package com.test.springtest.service;
 
 import com.test.springtest.domain.Group;
-
-import java.util.List;
+import com.test.springtest.dto.GroupDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface GroupService {
-    List<Group> getGroupList();
+    Page<Group> getGroupList(Pageable pageable);
 
-    List<Group> getGroupList(String  name);
+    Page<Group> getGroupList(Pageable pageable, GroupDTO groupDTO);
 
     Group getGroup(String id);
 
-    Group insertGroup(String id, String name);
+    boolean existGroup(String id);
 
-    boolean updateGroup(String id, String name);
+    Group insertGroup(GroupDTO groupDTO);
+
+    Group updateGroup(GroupDTO groupDTO);
 
     void deleteGroup(String id);
 }

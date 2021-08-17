@@ -1,26 +1,25 @@
 package com.test.springtest.service;
 
 import com.test.springtest.domain.Member;
+import com.test.springtest.dto.MemberDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.Modifying;
-
-import java.util.List;
 
 public interface MemberService {
 
     Page<Member> getMemberList(Pageable pageable);
 
-    Page<Member> getMemberList(Pageable pageable, String name);
+    Page<Member> getMemberList(Pageable pageable, MemberDTO memberDTO);
+
+    boolean existMember(String id);
 
     Member getMember(String id);
 
     Member getMember(String id, String name);
 
-    Member insertMember(String id, String name, String password);
+    Member insertMember(MemberDTO memberDTO);
 
-    boolean updateMember(String id, String name, String password);
+    Member updateMember(MemberDTO memberDTO);
 
     void deleteMember(String id);
 }

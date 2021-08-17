@@ -1,14 +1,15 @@
 package com.test.springtest.service;
 
 import com.test.springtest.domain.Group;
+import com.test.springtest.dto.GroupDTO;
 import com.test.springtest.reopsitory.GroupRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -19,13 +20,17 @@ public class GroupServiceImpl implements GroupService {
     private GroupRepository groupRepository;
 
     @Override
-    public List<Group> getGroupList() {
-        return groupRepository.findAll();
+    public Page<Group> getGroupList(Pageable pageable) {
+        return groupRepository.findAll(pageable);
     }
 
     @Override
-    public List<Group> getGroupList(String name) {
-        return groupRepository.findAllByNameLike(name);
+    public Page<Group> getGroupList(Pageable pageable, GroupDTO groupDTO) {
+        if(groupDTO.getName()!=null) {
+            return groupRepository.findAllByNameLike(pageable, groupDTO.getName());
+        }else {
+            return this.getGroupList(pageable);
+        }
     }
 
     @Override
@@ -33,26 +38,33 @@ public class GroupServiceImpl implements GroupService {
         return groupRepository.findById(id).orElse(null);
     }
 
-    @Transactional
     @Override
-    public Group insertGroup(String id, String name) {
-        Group group = Group.builder()
-                .id(id)
-                .name(name)
-                .build();
-
-        return groupRepository.save(group);
+    public boolean existGroup(String id) {
+        Group existGroup = groupRepository.findById(id).orElse(null);
+        if (existGroup == null) {
+            return false;
+        }else{
+            return true;
+        }
     }
 
     @Transactional
     @Override
-    public boolean updateGroup(String id, String name) {
-        Group group = groupRepository.getById(id);
-        if (group == null) {
-            return false;
+    public Group insertGroup(GroupDTO groupDTO) {
+        if (this.existGroup(groupDTO.getId())) {
+            return null;
         }
-        group.setName(name);
-        return true;
+        return groupRepository.save(groupDTO.toEntity());
+    }
+
+    @Transactional
+    @Override
+    public Group updateGroup(GroupDTO groupDTO) {
+        Group orgGroup = groupRepository.getById(groupDTO.getId());
+        if (orgGroup == null) {
+            return null;
+        }
+        return groupRepository.save(groupDTO.toEntity());
     }
 
     @Transactional

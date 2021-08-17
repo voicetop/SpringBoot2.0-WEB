@@ -1,4 +1,4 @@
-package com.test.springtest.parameter;
+package com.test.springtest.swagger.reader;
 
 import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.TypeResolver;
@@ -38,20 +38,24 @@ public class PageableParameterReader implements OperationBuilderPlugin {
             ResolvedType resolvedType = methodParameter.getParameterType();
 
             if (pageableType.equals(resolvedType)) {
-
                 parameters.add(new RequestParameterBuilder()
                         .in(ParameterType.QUERY)
                         .name("page")
+                        .parameterIndex(999)
                         .query(q -> q.model(m -> m.scalarModel(ScalarType.INTEGER)))
-                        .description("조회요청하는 페이지 번호 (0~N)").build());
+                        .description("조회 요청하는 페이지 번호 (0~N)")
+                        .build());
                 parameters.add(new RequestParameterBuilder()
                         .in(ParameterType.QUERY)
                         .name("size")
+                        .parameterIndex(999)
                         .query(q -> q.model(m -> m.scalarModel(ScalarType.INTEGER)))
-                        .description("1페이지당 결과 개수").build());
+                        .description("1 페이지당 결과 개수")
+                        .build());
                 parameters.add(new RequestParameterBuilder()
                         .in(ParameterType.QUERY)
                         .name("sort")
+                        .parameterIndex(999)
                         .query(q -> q.model(m -> m.collectionModel(c -> c.model(cm -> cm.scalarModel(ScalarType.STRING)))))
                         .description("설명 : (컬럼,ASC|DESC)"
                                 + "기본 정렬 ASC"

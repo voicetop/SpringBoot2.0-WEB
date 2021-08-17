@@ -1,6 +1,5 @@
-package com.test.springtest;
+package com.test.springtest.swagger;
 
-import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +20,6 @@ import static java.util.List.of;
 @EnableOpenApi
 @Configuration
 public class SwaggerConfig {
-
-    private final TypeResolver typeResolver = new TypeResolver();
 
     // swagger3 -> http://localhost:8080/swagger-ui/index.html
 
