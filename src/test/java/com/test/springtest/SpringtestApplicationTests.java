@@ -2,8 +2,8 @@ package com.test.springtest;
 
 import com.test.springtest.domain.Group;
 import com.test.springtest.domain.Member;
-import com.test.springtest.dto.GroupDTO;
-import com.test.springtest.dto.MemberDTO;
+import com.test.springtest.dto.group.GroupDTO;
+import com.test.springtest.dto.member.MemberDTO;
 import com.test.springtest.service.GroupService;
 import com.test.springtest.service.MemberService;
 import lombok.extern.slf4j.Slf4j;

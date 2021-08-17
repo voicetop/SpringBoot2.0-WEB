@@ -1,8 +1,10 @@
-package com.test.springtest.service;
+package com.test.springtest.service.impl;
 
 import com.test.springtest.domain.Group;
-import com.test.springtest.dto.GroupDTO;
+import com.test.springtest.dto.group.GroupDTO;
+import com.test.springtest.dto.group.SearchDTO;
 import com.test.springtest.reopsitory.GroupRepository;
+import com.test.springtest.service.GroupService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +27,9 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public Page<Group> getGroupList(Pageable pageable, GroupDTO groupDTO) {
-        if(groupDTO.getName()!=null) {
-            return groupRepository.findAllByNameLike(pageable, groupDTO.getName());
+    public Page<Group> getGroupList(Pageable pageable, SearchDTO searchDTO) {
+        if(searchDTO.getName()!=null) {
+            return groupRepository.findAllByNameLike(pageable, searchDTO.getName());
         }else {
             return this.getGroupList(pageable);
         }

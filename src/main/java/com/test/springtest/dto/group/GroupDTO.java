@@ -1,4 +1,4 @@
-package com.test.springtest.dto;
+package com.test.springtest.dto.group;
 
 import com.test.springtest.domain.Group;
 import io.swagger.annotations.ApiParam;

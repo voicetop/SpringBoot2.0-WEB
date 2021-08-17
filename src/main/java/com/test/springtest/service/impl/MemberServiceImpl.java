@@ -1,8 +1,10 @@
-package com.test.springtest.service;
+package com.test.springtest.service.impl;
 
 import com.test.springtest.domain.Member;
-import com.test.springtest.dto.MemberDTO;
+import com.test.springtest.dto.member.MemberDTO;
+import com.test.springtest.dto.member.SearchDTO;
 import com.test.springtest.reopsitory.MemberRepository;
+import com.test.springtest.service.MemberService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +27,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Page<Member> getMemberList(Pageable pageable, MemberDTO memberDTO) {
-        if (memberDTO.getName() != null) {
-            return memberRepository.findAllByNameLike(pageable, memberDTO.getName());
+    public Page<Member> getMemberList(Pageable pageable, SearchDTO searchDTO) {
+        if (searchDTO.getName() != null) {
+            return memberRepository.findAllByNameLike(pageable, searchDTO.getName());
         } else {
             return this.getMemberList(pageable);
         }

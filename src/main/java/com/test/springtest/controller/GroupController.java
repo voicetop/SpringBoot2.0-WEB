@@ -1,7 +1,8 @@
 package com.test.springtest.controller;
 
 import com.test.springtest.domain.Group;
-import com.test.springtest.dto.GroupDTO;
+import com.test.springtest.dto.group.GroupDTO;
+import com.test.springtest.dto.group.SearchDTO;
 import com.test.springtest.service.GroupService;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,8 +33,8 @@ public class GroupController {
 
     @Operation(summary = "그룹 조회(Page)", description = "Group List Paged")
     @GetMapping("")
-    public Page<Group> getGroupList(Pageable pageable, GroupDTO GroupDTO) throws InterruptedException {
-        Page<Group> GroupList = groupService.getGroupList(pageable, GroupDTO);
+    public Page<Group> getGroupList(Pageable pageable, @Validated SearchDTO searchDTO) throws InterruptedException {
+        Page<Group> GroupList = groupService.getGroupList(pageable, searchDTO);
         return GroupList;
     }
 

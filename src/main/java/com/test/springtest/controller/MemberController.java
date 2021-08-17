@@ -1,7 +1,8 @@
 package com.test.springtest.controller;
 
 import com.test.springtest.domain.Member;
-import com.test.springtest.dto.MemberDTO;
+import com.test.springtest.dto.member.MemberDTO;
+import com.test.springtest.dto.member.SearchDTO;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.NonNull;
@@ -29,14 +30,14 @@ public class MemberController {
 
     @Operation(summary = "사용자 조회(Page)", description = "Member List Paged")
     @GetMapping("")
-    public Page<Member> getMemberList(Pageable pageable, MemberDTO memberDTO) throws InterruptedException {
-        Page<Member> memberList = memberService.getMemberList(pageable, memberDTO);
+    public Page<Member> getMemberList(Pageable pageable, @Validated SearchDTO searchDTO) throws InterruptedException {
+        Page<Member> memberList = memberService.getMemberList(pageable, searchDTO);
         return memberList;
     }
 
     @Operation(summary = "사용자 상세 조회", description = "Member Detail")
     @GetMapping("/{id}")
-    public ResponseEntity getMember(@PathVariable String id) throws InterruptedException {
+    public ResponseEntity getMember(@PathVariable(required = true) String id) throws InterruptedException {
         return ResponseEntity.ok(memberService.getMember(id));
     }
 
@@ -67,7 +68,7 @@ public class MemberController {
 
     @Operation(summary = "사용자 삭제", description = "사용자를 삭제한다")
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteMember(@PathVariable String id) throws InterruptedException {
+    public ResponseEntity deleteMember(@PathVariable(required = true) String id) throws InterruptedException {
         memberService.deleteMember(id);
         return ResponseEntity.ok().build();
     }
