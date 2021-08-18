@@ -30,8 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-resources/**",
             "/",
             "/index.html",
-            "/login",
-            "/oauth2/**"    // oauth2요청 : /oauth2/authorization/{client}
+            "/login**",
+            "/oauth2/**"    // OAuth2-URL : /oauth2/authorization/{id}
     };
 
     //static resources ("/css/**", "/js/**", "/images/**", /webjars/**, "/favicon.*", "/*/icon-*")
@@ -72,7 +72,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new InMemoryClientRegistrationRepository(registrations);
     }
 
-    // OAuth2-URL : /oauth2/authorization/{id}
     private ClientRegistration getRegistration(OAuth2ClientProperties clientProperties, String client) {
         if ("google".equals(client)) {
             OAuth2ClientProperties.Registration registration = clientProperties.getRegistration().get(client);

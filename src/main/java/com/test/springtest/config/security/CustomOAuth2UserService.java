@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorHandler;
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequestEntityConverter;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2AuthorizationException;
@@ -28,7 +28,8 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class CustomOAuth2UserService extends DefaultOAuth2UserService {
+public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+
     private static final String MISSING_USER_INFO_URI_ERROR_CODE = "missing_user_info_uri";
 
     private static final String MISSING_USER_NAME_ATTRIBUTE_ERROR_CODE = "missing_user_name_attribute";
@@ -78,6 +79,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         ResponseEntity<Map<String, Object>> response;
         try {
             response = this.restOperations.exchange(request, PARAMETERIZED_RESPONSE_TYPE);
+
+            Map<String, Object> userAttributes = getUserAttributes(response);
+            Set<GrantedAuthority> authorities = new LinkedHashSet<>();
+            authorities.add(new OAuth2UserAuthority(userAttributes));
+            OAuth2AccessToken token = userRequest.getAccessToken();
+            for (String authority : token.getScopes()) {
+                authorities.add(new SimpleGrantedAuthority("SCOPE_" + authority));
+            }
+
+            return new DefaultOAuth2User(authorities, userAttributes, userNameAttributeName);
         } catch (OAuth2AuthorizationException ex) {
             OAuth2Error oauth2Error = ex.getError();
             StringBuilder errorDetails = new StringBuilder();
@@ -97,26 +108,24 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     "An error occurred while attempting to retrieve the UserInfo Resource: " + ex.getMessage(), null);
             throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString(), ex);
         }
-
-        Map<String, Object> userAttributes = getUserAttributes(response);
-        Set<GrantedAuthority> authorities = new LinkedHashSet<>();
-        authorities.add(new OAuth2UserAuthority(userAttributes));
-        OAuth2AccessToken token = userRequest.getAccessToken();
-        for (String authority : token.getScopes()) {
-            authorities.add(new SimpleGrantedAuthority("SCOPE_" + authority));
-        }
-
-        return new DefaultOAuth2User(authorities, userAttributes, userNameAttributeName);
     }
 
-    // NAVER HTTP response body > response
     private Map<String, Object> getUserAttributes(ResponseEntity<Map<String, Object>> response) {
         Map<String, Object> userAttributes = response.getBody();
+
+        // NAVER (oauth2 response body)
         if(userAttributes.containsKey("response")) {
+            if(!"00".equals(userAttributes.get("resultcode"))){
+                throw new RestClientException(String.valueOf(userAttributes.get("message")));
+            }
             LinkedHashMap responseData = (LinkedHashMap)userAttributes.get("response");
             userAttributes.putAll(responseData);
+
             userAttributes.remove("response");
+            userAttributes.remove("resultcode");
+            userAttributes.remove("message");
         }
+
         return userAttributes;
     }
 }
