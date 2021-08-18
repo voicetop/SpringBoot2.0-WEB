@@ -6,6 +6,7 @@ import com.test.springtest.dto.group.SearchDTO;
 import com.test.springtest.service.GroupService;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.OAuthScope;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +24,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/Groups", produces = MediaTypes.HAL_JSON_VALUE)
+@RequestMapping(value = "/api/groups", produces = MediaTypes.HAL_JSON_VALUE)
 @Api(tags = {"Group API"})
 public class GroupController {
 
@@ -34,8 +34,8 @@ public class GroupController {
     @Operation(summary = "그룹 조회(Page)", description = "Group List Paged")
     @GetMapping("")
     public Page<Group> getGroupList(Pageable pageable, @Validated SearchDTO searchDTO) throws InterruptedException {
-        Page<Group> GroupList = groupService.getGroupList(pageable, searchDTO);
-        return GroupList;
+        Page<Group> groupList = groupService.getGroupList(pageable, searchDTO);
+        return groupList;
     }
 
     @Operation(summary = "그룹 상세 조회", description = "Group Detail")
@@ -46,13 +46,13 @@ public class GroupController {
 
     @Operation(summary = "그룹 생성", description = "그룹를 생성한다")
     @PostMapping("/")
-    public ResponseEntity insertGroup(@Validated GroupDTO GroupDTO) throws InterruptedException {
-        Group resultGroup = groupService.insertGroup(GroupDTO);
+    public ResponseEntity insertGroup(@Validated GroupDTO groupDTO) throws InterruptedException {
+        Group resultGroup = groupService.insertGroup(groupDTO);
         if (resultGroup!=null) {
             return ResponseEntity.ok().body(
                         EntityModel.of(resultGroup).add(
                                 linkTo(methodOn(GroupController.class).getGroup(resultGroup.getId())).withRel("query-event"),
-                                linkTo(methodOn(GroupController.class).updateGroup(GroupDTO)).withRel("update-event"),
+                                linkTo(methodOn(GroupController.class).updateGroup(groupDTO)).withRel("update-event"),
                                 linkTo(methodOn(GroupController.class).deleteGroup(resultGroup.getId())).withRel("delete-event")
                         )
                     );
@@ -64,8 +64,8 @@ public class GroupController {
     @Operation(summary = "그룹 수정", description = "그룹 정보를 수정한다")
     @PatchMapping("/{id}")
     @PutMapping("/{id}")
-    public ResponseEntity updateGroup(@Validated GroupDTO GroupDTO) throws InterruptedException {
-        groupService.updateGroup(GroupDTO);
+    public ResponseEntity updateGroup(@Validated GroupDTO groupDTO) throws InterruptedException {
+        groupService.updateGroup(groupDTO);
         return ResponseEntity.ok().build();
     }
 

@@ -1,4 +1,4 @@
-package com.test.springtest.swagger;
+package com.test.springtest.config.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +21,6 @@ import static java.util.List.of;
 @Configuration
 public class SwaggerConfig {
 
-    // swagger3 -> http://localhost:8080/swagger-ui/index.html
-
     @Bean
     public Docket petApi() {
         return new Docket(DocumentationType.OAS_30)
@@ -34,7 +32,6 @@ public class SwaggerConfig {
                 .pathMapping("/")
                 .directModelSubstitute(LocalDate.class, String.class)
                 .genericModelSubstitutes(ResponseEntity.class)
-//                .additionalModels(new TypeResolver().resolve(ErrorMessage.class))
                 .useDefaultResponseMessages(false)
                 .securitySchemes(of(authenticationScheme()))
                 .securityContexts(of(securityContext()))

@@ -42,3 +42,14 @@ spring:
   jackson:
     serialization:
       fail-on-empty-beans: false
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            clientId: kakao-client-id
+            clientSecret: kakao-client-secret
+          naver:
+            clientId: naver-client-id
+            clientSecret: naver-client-secret

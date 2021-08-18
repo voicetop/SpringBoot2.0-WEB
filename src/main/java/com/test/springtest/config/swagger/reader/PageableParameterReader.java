@@ -1,4 +1,4 @@
-package com.test.springtest.swagger.reader;
+package com.test.springtest.config.swagger.reader;
 
 import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.TypeResolver;
