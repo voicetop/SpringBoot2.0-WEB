@@ -1,4 +1,4 @@
-package com.test.springtest.reopsitory;
+package com.test.springtest.repository;
 
 import com.test.springtest.domain.Member;
 import org.springframework.data.domain.Page;

@@ -3,7 +3,7 @@ package com.test.springtest.service.impl;
 import com.test.springtest.domain.Member;
 import com.test.springtest.dto.member.MemberDTO;
 import com.test.springtest.dto.member.SearchDTO;
-import com.test.springtest.reopsitory.MemberRepository;
+import com.test.springtest.repository.MemberRepository;
 import com.test.springtest.service.MemberService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member getMember(String id) {
-        return memberRepository.findById(id).orElse(null);
+        return memberRepository.findById(id).orElseThrow();
     }
 
     @Override

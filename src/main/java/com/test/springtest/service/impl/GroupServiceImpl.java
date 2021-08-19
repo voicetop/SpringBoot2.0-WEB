@@ -3,7 +3,7 @@ package com.test.springtest.service.impl;
 import com.test.springtest.domain.Group;
 import com.test.springtest.dto.group.GroupDTO;
 import com.test.springtest.dto.group.SearchDTO;
-import com.test.springtest.reopsitory.GroupRepository;
+import com.test.springtest.repository.GroupRepository;
 import com.test.springtest.service.GroupService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Group getGroup(String id) {
-        return groupRepository.findById(id).orElse(null);
+        return groupRepository.findById(id).orElseThrow();
     }
 
     @Override

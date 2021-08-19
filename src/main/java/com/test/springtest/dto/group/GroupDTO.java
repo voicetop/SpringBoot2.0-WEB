@@ -12,7 +12,7 @@ public class GroupDTO {
 
     @ApiParam(value = "그룹 ID", required = false)
     String id;
-
+    
     @ApiParam(value = "그룹 이름", required = false)
     String name;
 

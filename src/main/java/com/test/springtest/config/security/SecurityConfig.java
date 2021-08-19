@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String[] AUTH_WHITELIST = {
+    private static final String[] PATTERN_WHITE_LIST = {
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/swagger-resources/**",
@@ -44,10 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers(AUTH_WHITELIST).permitAll()
+                .antMatchers(PATTERN_WHITE_LIST).permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/facebook").hasAuthority("FACEBOOK")
-                .antMatchers("/google").hasAuthority("GOOGLE")
                 .antMatchers("/kakao").hasAuthority("KAKAO")
                 .antMatchers("/naver").hasAuthority("NAVER")
                 .anyRequest().authenticated()
@@ -58,6 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/loginSuccess")
                 .failureUrl("/loginFailure")
                 .and()
+//                .oauth2ResourceServer()
+//                .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"));
     }
