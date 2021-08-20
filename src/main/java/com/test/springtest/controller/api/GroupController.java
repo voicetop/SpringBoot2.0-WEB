@@ -1,4 +1,4 @@
-package com.test.springtest.controller;
+package com.test.springtest.controller.api;
 
 import com.test.springtest.domain.Group;
 import com.test.springtest.dto.group.GroupDTO;
@@ -6,7 +6,6 @@ import com.test.springtest.dto.group.SearchDTO;
 import com.test.springtest.service.GroupService;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.OAuthScope;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.test.springtest.controller;
+package com.test.springtest.controller.api;
 
 import com.test.springtest.domain.Member;
 import com.test.springtest.dto.member.MemberDTO;

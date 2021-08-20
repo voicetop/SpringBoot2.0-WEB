@@ -25,13 +25,15 @@ import java.util.stream.Collectors;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] PATTERN_WHITE_LIST = {
+            "/login",
+            "/login/**",
+            "/oauth2/**"    // OAuth2-URL : /oauth2/authorization/{id}
+    };
+
+    private static final String[] PATTERN_SWAGGER3_LIST = {
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/swagger-resources/**",
-            "/",
-            "/index.html",
-            "/login**",
-            "/oauth2/**"    // OAuth2-URL : /oauth2/authorization/{id}
     };
 
     //static resources ("/css/**", "/js/**", "/images/**", /webjars/**, "/favicon.*", "/*/icon-*")
@@ -45,19 +47,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers(PATTERN_WHITE_LIST).permitAll()
+                .antMatchers(PATTERN_SWAGGER3_LIST).hasRole("USER")
+                .antMatchers("/api/**").hasRole("USER")
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/kakao").hasAuthority("KAKAO")
-                .antMatchers("/naver").hasAuthority("NAVER")
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
                 .userInfoEndpoint().userService(new CustomOAuth2UserService())
                 .and()
-                .defaultSuccessUrl("/loginSuccess")
-                .failureUrl("/loginFailure")
+                .defaultSuccessUrl("/main")
+                .failureUrl("/login/failure")
                 .and()
-//                .oauth2ResourceServer()
-//                .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"));
     }

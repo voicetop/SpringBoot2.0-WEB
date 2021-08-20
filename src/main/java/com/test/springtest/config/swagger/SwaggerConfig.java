@@ -25,7 +25,7 @@ public class SwaggerConfig {
     public Docket petApi() {
         return new Docket(DocumentationType.OAS_30)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.test.springtest.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.test.springtest.controller.api"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo())
