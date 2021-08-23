@@ -1,23 +1,28 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Title</title>
+    <title>로그인 페이지</title>
 </head>
 <body>
+
+<th:block layout:fragment="pageContent">
     <h1>OAuth2 Login</h1>
     <h2 th:text="${fail}"></h2>
 
-    <div class="login">
+    <div class="login-oauth-button">
         <div class="loginButton" th:each="oauthLogin: ${oauthLoginList}" th:attr="data-oauthcode=${oauthLogin}"></div>
     </div>
+</th:block>
 
-    <!-- React JS -->
-    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- Dev -->
-    <script type="text/babel" src="/js/login.js"></script>
+<th:block layout:fragment="pageCss">
+    <link type="text/css" rel="stylesheet" th:href="@{/css/login.css}" />
+</th:block>
+
+<th:block layout:fragment="pageScript">
+    <script type="text/babel" th:src="@{/js/login.js}"></script>
+</th:block>
+
 </body>
 </html>

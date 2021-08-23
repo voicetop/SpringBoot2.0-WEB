@@ -22,19 +22,18 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 	implementation 'com.nimbusds:oauth2-oidc-sdk'
 	implementation 'org.projectlombok:lombok'
-
-	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
 	annotationProcessor 'org.projectlombok:lombok'
 
 	runtimeOnly 'com.h2database:h2'
 
-	testAnnotationProcessor 'org.projectlombok:lombok'
-
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+	testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 test {

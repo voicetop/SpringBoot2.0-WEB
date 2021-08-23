@@ -1,12 +1,24 @@
 <!DOCTYPE html>
-<html lang="ko"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
 <head>
-    <meta charset="UTF-8">
-    <title>ERROR</title>
+    <title>에러 페이지</title>
 </head>
 <body>
-<h2 th:text="${errMessage}"></h2>
+
+<th:block layout:fragment="pageContent">
+    <h1>Server ERROR</h1>
+    <h2 th:text="${errMessage}"></h2>
+</th:block>
+
+<th:block layout:fragment="pageCss">
+
+</th:block>
+
+<th:block layout:fragment="pageScript">
+
+</th:block>
+
 </body>
 </html>

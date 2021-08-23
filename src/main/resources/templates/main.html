@@ -1,10 +1,23 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Main 페이지</title>
 </head>
 <body>
-<h1>Main</h1>
+
+<th:block layout:fragment="pageContent">
+    <h1>Main Page</h1>
+</th:block>
+
+<th:block layout:fragment="pageCss">
+<!--    <link type="text/css" rel="stylesheet" th:href="@{/css/login.css}" />-->
+</th:block>
+
+<th:block layout:fragment="pageScript">
+<!--    <script type="text/babel" th:src="@{/js/login.js}"></script>-->
+</th:block>
+
 </body>
 </html>

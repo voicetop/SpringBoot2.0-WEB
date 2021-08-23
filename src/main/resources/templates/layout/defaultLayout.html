@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <title layout:title-pattern="$CONTENT_TITLE">Title</title>
+  <th:block th:replace="fragments/head"></th:block>
+</head>
+<body>
+
+<div class="content">
+  <th:block layout:fragment="pageContent"></th:block>
+</div>
+
+<th:block layout:fragment="pageCss"></th:block>
+<th:block layout:fragment="pageScript"></th:block>
+
+<footer>
+  <th:block th:replace="fragments/footer"></th:block>
+</footer>
+
+</body>
+</html>
