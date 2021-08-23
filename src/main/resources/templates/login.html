@@ -9,8 +9,8 @@
     <h1>OAuth2 Login</h1>
     <h2 th:text="${fail}"></h2>
 
-    <div id="loginComponent">
-
+    <div class="login">
+        <div class="loginButton" th:each="oauthLogin: ${oauthLoginList}" th:attr="data-oauthcode=${oauthLogin}"></div>
     </div>
 
     <!-- React JS -->
